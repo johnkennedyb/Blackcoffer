@@ -7,7 +7,11 @@ const app = express();
 const port = 5000;
 
 // Enable CORS for all routes
-app.use(cors());
+app.use(cors({
+  origin: "https://deploy-mern.vercel.app",
+  methods: ["POST", "GET"],
+  credentials: true
+}));
 
 // Set up session middleware
 app.use(session({

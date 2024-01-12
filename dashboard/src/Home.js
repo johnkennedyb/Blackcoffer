@@ -29,7 +29,7 @@ function Home() {
 
   useEffect(() => {
     // Fetch data from the server when the component mounts
-    fetch("http://localhost:5000/api/data")
+    fetch("https://blackcoffer-api-virid.vercel.app/api/data")
       .then((response) => response.json())
       .then((data) => {
         // Update the state with the fetched data

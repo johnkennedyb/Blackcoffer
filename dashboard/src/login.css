@@ -54,7 +54,7 @@ body.login-page::before {
   /* Center on smaller screens */
   .login-container {
     
-        margin-right: 10px;
+        margin-right: 20px;
 
   }
 

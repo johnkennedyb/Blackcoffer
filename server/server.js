@@ -13,6 +13,8 @@ app.use(cors({
   credentials: true
 }));
 
+app.use(express.json())
+
 // Set up session middleware
 app.use(session({
   secret: 'your-secret-key', // Change this to a secret key

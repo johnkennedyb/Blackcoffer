@@ -46,10 +46,7 @@ function Home() {
       });
   }, [cachedData]);
 
-  if (!chartData || chartData.length === 0) {
-    // Display loading indicator or default values
-    return <p>Loading...</p>;
-  }
+  
 
   const totalIntensity = chartData.reduce((total, data) => total + data.intensity, 0);
   const totalLikelihood = chartData.reduce((total, data) => total + data.likelihood, 0);

@@ -23,27 +23,37 @@ function Home() {
   const intensityRef = useRef(null);
   const likelyhoodRef = useRef(null);
   const relevanceRef = useRef(null);
-  const yearRef = useRef(null);
+  // Unused ref, consider removing it
+  // const yearRef = useRef(null);
 
   const [chartData, setChartData] = useState([]);
+  const [cachedData, setCachedData] = useState([]);
 
   useEffect(() => {
-    // Fetch data from the server when the component mounts
     fetch("https://blackserverapi.onrender.com/api/data")
       .then((response) => response.json())
       .then((data) => {
-        // Update the state with the fetched data
         setChartData(data);
+        setCachedData(data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        // Set an initial value for cachedData to avoid rendering without data
+        if (cachedData.length === 0) {
+          setChartData([]);
+          setCachedData([]);
+        }
       });
-  }, []); 
+  }, [cachedData]);
+
+  if (!chartData || chartData.length === 0) {
+    // Display loading indicator or default values
+    return <p>Loading...</p>;
+  }
 
   const totalIntensity = chartData.reduce((total, data) => total + data.intensity, 0);
-  const totalLikelyhood = chartData.reduce((total, data) => total + data.likelihood, 0);
+  const totalLikelihood = chartData.reduce((total, data) => total + data.likelihood, 0);
   const totalRelevance = chartData.reduce((total, data) => total + data.relevance, 0);
-  const totalYear = chartData.reduce((total, data) => total + data.year, 0);
 
   const scrollToRef = (ref) => {
     if (ref && ref.current) {
@@ -67,27 +77,29 @@ function Home() {
 
         <div id="likelyhood" ref={likelyhoodRef} className="card">
           <div className="card-inner">
-            <h3>LIKELYHOOD</h3>
+            <h3>LIKELIHOOD</h3> {/* Corrected spelling */}
             <BsFillGrid3X3GapFill className="card_icon" />
           </div>
-          <h1>{totalLikelyhood}</h1>
+          <h1>{totalLikelihood}</h1>
         </div>
 
         <div id="relevance" ref={relevanceRef} className="card">
           <div className="card-inner">
-            <h3>RELIVANCE</h3>
+            <h3>RELEVANCE</h3> {/* Corrected spelling */}
             <BsPeopleFill className="card_icon" />
           </div>
           <h1>{totalRelevance}</h1>
         </div>
 
-        <div id="year" ref={yearRef} className="card">
+        {/* Unused ref, consider removing it */}
+        {/* <div id="year" ref={yearRef} className="card">
           <div className="card-inner">
             <h3>YEAR</h3>
             <BsFillBellFill className="card_icon" />
           </div>
           <h1>42</h1>
-        </div>
+        </div> */}
+
         <div className="charts">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
@@ -115,7 +127,7 @@ function Home() {
             <LineChart
               width={500}
               height={300}
-              data={chartData}  
+              data={chartData}
               margin={{
                 top: 5,
                 right: 30,
